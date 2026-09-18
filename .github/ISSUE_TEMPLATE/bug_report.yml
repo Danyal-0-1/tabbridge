@@ -1,0 +1,152 @@
+name: Bug report
+description: Report reproducible incorrect behavior using synthetic, non-sensitive data.
+title: 'bug: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve TabBridge. Search existing issues first.
+
+        **Do not report a vulnerability here.** Use the private process in `SECURITY.md`. Never attach a real `.tabbridge` file or include a passphrase, key, full private URL, title, device label, account detail, or browser profile. Reproduce with synthetic data such as `https://example.test/`.
+
+  - type: input
+    id: version
+    attributes:
+      label: TabBridge version or commit
+      description: Give the displayed version, release tag, or full commit hash you tested.
+      placeholder: v0.1.0 or a 40-character commit hash
+    validations:
+      required: true
+
+  - type: dropdown
+    id: installation
+    attributes:
+      label: Installation source
+      options:
+        - Chrome unpacked build
+        - Firefox temporary add-on
+        - GitHub release artifact
+        - Chrome Web Store
+        - Mozilla Add-ons signed build
+        - Source-level test only
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and operating system
+      description:
+        Include exact browser and OS versions, not just Chrome, Firefox, Windows, macOS, or Linux.
+      placeholder: Firefox 140.0 on Ubuntu 24.04
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Capture or save
+        - Snapshot list, search, preview, or rename
+        - Restore
+        - Local storage or locking
+        - Browser Sync
+        - Encrypted export
+        - Encrypted import
+        - Passphrase change
+        - UI or accessibility
+        - Build, validation, or packaging
+        - Documentation
+        - Other non-security behavior
+    validations:
+      required: true
+
+  - type: dropdown
+    id: storage_mode
+    attributes:
+      label: Storage or transfer mode
+      options:
+        - Local only
+        - Chrome Browser Sync
+        - Firefox Browser Sync
+        - Encrypted file transfer
+        - Not applicable
+    validations:
+      required: true
+
+  - type: dropdown
+    id: lock_state
+    attributes:
+      label: Vault state when the problem occurred
+      options:
+        - Unlocked
+        - Locked
+        - Not configured
+        - Unknown or not applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description:
+        Describe the incorrect behavior and its user impact without sensitive browsing data.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Reproduction steps
+      description:
+        Use a new test vault and synthetic example.test URLs. Say whether it reproduces after
+        restarting the extension/browser.
+      placeholder: |
+        1. Create a throwaway vault...
+        2. Open synthetic tabs...
+        3. Choose...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description:
+        Include exact visible error text after removing URLs, titles, IDs, and other private values.
+    validations:
+      required: true
+
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Sanitized diagnostics
+      description:
+        Optional. Paste only the smallest relevant output. Replace URLs/titles/UUIDs and review it
+        again before submission. Do not attach exports or profiles.
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I searched existing issues and tested the newest build available to me.
+          required: true
+        - label: This is not a security vulnerability or private conduct report.
+          required: true
+        - label:
+            I removed real URLs, titles, labels, identifiers, exports, passphrases, keys,
+            credentials, and account details.
+          required: true
+        - label: I have not represented an unrun test or unavailable browser as passing.
+          required: true

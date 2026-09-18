@@ -1,0 +1,89 @@
+name: Feature request
+description: Propose a focused improvement that preserves TabBridge's privacy model.
+title: 'feat: '
+body:
+  - type: markdown
+    attributes:
+      value: |
+        TabBridge version 1 is intentionally desktop-only, serverless, and copy-and-restore. It has no project account, telemetry, content scripts, host access, or automatic Chrome↔Firefox sync. A proposal that changes those boundaries needs an explicit privacy and threat-model analysis.
+
+        Do not include real browsing data or report a vulnerability here; use `SECURITY.md` for private reports.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description:
+        Describe the user need rather than only a preferred implementation. Use synthetic examples.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Explain the user flow, failure states, and what would remain unchanged.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: browsers
+    attributes:
+      label: Relevant platforms
+      options:
+        - label: Desktop Chrome
+        - label: Desktop Firefox 140+
+        - label: Best-effort Chromium compatibility
+        - label: Browser-independent core or documentation
+
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Privacy and security impact
+      description:
+        Identify any new data field, plaintext metadata, retention, network destination, browser
+        consent, permission, API, dependency, remote asset/code, or import/restore risk. Write
+        “none” only after checking each category.
+    validations:
+      required: true
+
+  - type: textarea
+    id: sync
+    attributes:
+      label: Sync and compatibility impact
+      description:
+        Explain Chrome/Firefox differences, eventual consistency, stable identity, quota/write-rate
+        effects, schema/migration needs, and fallback behavior where relevant.
+    validations:
+      required: true
+
+  - type: textarea
+    id: accessibility
+    attributes:
+      label: Accessibility and UI states
+      description:
+        Describe keyboard/focus/screen-reader behavior and empty, loading, locked, offline, quota,
+        corrupt, partial, and error states that apply.
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Include a smaller local-only or encrypted-file approach when relevant.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Submission checks
+      options:
+        - label: I searched existing issues and the documented version-1 limitations.
+          required: true
+        - label: I used no real URLs, exports, passphrases, keys, credentials, or account details.
+          required: true
+        - label:
+            I understand that new permissions, runtime network access, telemetry, remote
+            code/assets, a project backend/account, destructive transfer, or mobile scope are not
+            presumed acceptable.
+          required: true
