@@ -1,0 +1,47 @@
+{
+  "name": "tabbridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Move your browsing workspace between devices—privately.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:chrome": "node scripts/build.mjs chrome",
+    "build:firefox": "node scripts/build.mjs firefox",
+    "package": "node scripts/package.mjs",
+    "verify:packages": "node scripts/verify-packages.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "node scripts/lint.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:unit && npm run test:integration && npm run test:security",
+    "test:unit": "node scripts/test.mjs tests/unit",
+    "test:integration": "node scripts/test.mjs tests/integration",
+    "test:security": "node scripts/test.mjs tests/security",
+    "test:e2e": "node scripts/e2e-smoke.mjs",
+    "screenshots": "node scripts/e2e-smoke.mjs --screenshots",
+    "release:prepare": "node scripts/release-prepare.mjs",
+    "validate:manifests": "node scripts/validate-manifests.mjs",
+    "validate:firefox": "node scripts/validate-firefox.mjs",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run validate:manifests && npm run validate:firefox && npm run package && npm run verify:packages"
+  },
+  "overrides": {
+    "web-ext": {
+      "addons-linter": "$addons-linter"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "24.13.5",
+    "addons-linter": "10.13.0",
+    "esbuild": "0.28.2",
+    "playwright": "1.63.0",
+    "prettier": "3.9.8",
+    "typescript": "5.9.3",
+    "web-ext": "10.6.0"
+  }
+}

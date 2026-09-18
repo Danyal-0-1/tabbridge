@@ -1,0 +1,10 @@
+node_modules/
+dist/
+artifacts/
+coverage/
+*.pem
+*.key
+*.crx
+*.xpi
+.DS_Store
+web-ext-artifacts/
