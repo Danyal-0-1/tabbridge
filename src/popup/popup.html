@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TabBridge</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="popup-header">
+        <div>
+          <h1>TabBridge</h1>
+          <p id="mode-status" class="eyebrow">Loading…</p>
+        </div>
+        <button id="lock-button" class="button button-quiet" type="button" hidden>Lock</button>
+      </header>
+
+      <section id="setup-state" class="notice" hidden>
+        <h2>Set up encryption</h2>
+        <p>Create a passphrase in the manager before saving tabs.</p>
+        <button id="setup-button" class="button button-primary" type="button">Open setup</button>
+      </section>
+
+      <form id="unlock-form" class="stack" hidden>
+        <label for="unlock-passphrase">Passphrase</label>
+        <input id="unlock-passphrase" type="password" minlength="12" maxlength="1024" required />
+        <button class="button button-primary" type="submit">Unlock</button>
+      </form>
+
+      <section id="actions" class="stack" aria-label="Save workspace" hidden>
+        <button id="save-window" class="button button-primary" type="button">
+          Save current window
+        </button>
+        <button id="save-all" class="button button-secondary" type="button">
+          Save all windows
+        </button>
+        <button id="save-tab" class="text-action" type="button">Quick save current tab</button>
+      </section>
+
+      <p id="last-action" class="last-action" hidden></p>
+
+      <section id="recent-section" hidden>
+        <div class="section-heading">
+          <h2>Recent snapshots</h2>
+        </div>
+        <ol id="recent-list" class="recent-list"></ol>
+      </section>
+
+      <footer>
+        <button id="manager-button" class="text-action" type="button">Open manager</button>
+      </footer>
+      <p id="live-status" class="status-message" role="status" aria-live="polite"></p>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

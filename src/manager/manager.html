@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TabBridge Manager</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Private workspace transfer</p>
+        <h1>TabBridge</h1>
+      </div>
+      <div class="header-actions">
+        <span id="header-status" class="status-chip">Loading…</span>
+        <button id="lock-button" class="button button-quiet" type="button" hidden>Lock</button>
+      </div>
+    </header>
+
+    <main class="manager-shell">
+      <section id="onboarding" class="panel onboarding" hidden aria-labelledby="onboarding-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Before you begin</p>
+            <h2 id="onboarding-title">Your workspace, encrypted</h2>
+          </div>
+        </div>
+        <p>
+          TabBridge saves open desktop tabs and live tab groups. It cannot preserve logins, cookies,
+          forms, scroll position, media state, page memory, full history, or Chrome’s separate
+          closed Saved Tab Groups collection.
+        </p>
+        <ul>
+          <li>Local-only mode stays in this browser and supports encrypted file transfer.</li>
+          <li>
+            Optional Browser Sync uses Google or Mozilla infrastructure and is eventually
+            consistent: Chrome syncs only with Chrome, and Firefox only with Firefox.
+          </li>
+          <li>Chrome ↔ Firefox transfer uses an encrypted <code>.tabbridge</code> file.</li>
+          <li>Restores always open new windows and never close or replace existing tabs.</li>
+          <li>Your passphrase is never stored or recoverable. Losing it means losing access.</li>
+          <li>Desktop only. Standard mobile Chrome and Firefox Android sync are unsupported.</li>
+        </ul>
+        <form id="setup-form" class="form-grid">
+          <label for="setup-device-label">Device label</label>
+          <input id="setup-device-label" value="This device" maxlength="120" required />
+          <label for="setup-passphrase">New passphrase</label>
+          <input
+            id="setup-passphrase"
+            type="password"
+            minlength="12"
+            maxlength="1024"
+            autocomplete="new-password"
+            required
+          />
+          <label for="setup-passphrase-confirm">Confirm passphrase</label>
+          <input
+            id="setup-passphrase-confirm"
+            type="password"
+            minlength="12"
+            maxlength="1024"
+            autocomplete="new-password"
+            required
+          />
+          <button class="button button-primary" type="submit">Create encrypted vault</button>
+        </form>
+        <details class="join-sync">
+          <summary>Join an existing browser-sync vault</summary>
+          <p>
+            Use this only on another installation in the same browser ecosystem. Delivery can take
+            time, and Chrome and Firefox sync systems do not interoperate.
+          </p>
+          <form id="join-form" class="form-grid">
+            <label for="join-passphrase">Existing passphrase</label>
+            <input
+              id="join-passphrase"
+              type="password"
+              minlength="12"
+              maxlength="1024"
+              autocomplete="current-password"
+              required
+            />
+            <button class="button button-secondary" type="submit">
+              Check browser sync and join
+            </button>
+          </form>
+        </details>
+      </section>
+
+      <section id="unlock-panel" class="panel narrow-panel" hidden aria-labelledby="unlock-title">
+        <h2 id="unlock-title">Unlock TabBridge</h2>
+        <p>Enter your passphrase. It stays in this browser session and is not persisted.</p>
+        <form id="unlock-form" class="form-grid">
+          <label for="unlock-passphrase">Passphrase</label>
+          <input
+            id="unlock-passphrase"
+            type="password"
+            minlength="12"
+            maxlength="1024"
+            autocomplete="current-password"
+            required
+          />
+          <button class="button button-primary" type="submit">Unlock</button>
+        </form>
+      </section>
+
+      <div id="workspace" class="workspace" hidden>
+        <nav class="tabs" aria-label="Manager sections">
+          <button class="tab-button is-active" data-section="snapshots" type="button">
+            Snapshots
+          </button>
+          <button class="tab-button" data-section="settings" type="button">
+            Settings & privacy
+          </button>
+          <button class="tab-button" data-section="help" type="button">Help</button>
+        </nav>
+
+        <section id="snapshots-section" class="section-view" aria-labelledby="snapshots-title">
+          <div class="toolbar">
+            <div>
+              <h2 id="snapshots-title">Snapshots</h2>
+              <p id="snapshot-count" class="muted">Loading…</p>
+            </div>
+            <div class="toolbar-actions">
+              <label class="search-label">
+                <span class="sr-only">Search snapshots</span>
+                <input id="search" type="search" placeholder="Search snapshots" />
+              </label>
+              <label>
+                <span class="sr-only">Sort snapshots</span>
+                <select id="sort">
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                  <option value="device">Device</option>
+                </select>
+              </label>
+              <button id="import-button" class="button button-secondary" type="button">
+                Import
+              </button>
+            </div>
+          </div>
+          <div id="quota-warning" class="notice notice-warning" hidden></div>
+          <div class="content-grid">
+            <div id="snapshot-list" class="snapshot-list" aria-live="polite"></div>
+            <aside id="preview" class="panel preview" aria-labelledby="preview-title">
+              <h3 id="preview-title">Select a snapshot</h3>
+              <p class="muted">Preview windows, groups, and tabs here. No sites are contacted.</p>
+            </aside>
+          </div>
+        </section>
+
+        <section id="settings-section" class="section-view" hidden aria-labelledby="settings-title">
+          <h2 id="settings-title">Settings & privacy</h2>
+          <div class="settings-grid">
+            <section class="panel">
+              <h3>Device</h3>
+              <form id="device-form" class="form-grid">
+                <label for="device-label">Device label</label>
+                <input id="device-label" maxlength="120" required />
+                <button class="button button-secondary" type="submit">Save device label</button>
+              </form>
+              <label class="check-row">
+                <input id="discard-tabs" type="checkbox" />
+                <span>Discard background tabs after restore when supported</span>
+              </label>
+            </section>
+            <section class="panel">
+              <h3>Browser Sync</h3>
+              <p>
+                Opt-in sync sends encrypted records through your browser vendor’s sync service. It
+                is not real-time, cannot confirm remote delivery, and never crosses between Chrome
+                and Firefox.
+              </p>
+              <label class="check-row">
+                <input id="sync-enabled" type="checkbox" />
+                <span>Enable optional Browser Sync mode</span>
+              </label>
+              <div id="quota-display" class="quota" aria-live="polite"></div>
+            </section>
+            <section class="panel">
+              <h3>Encryption</h3>
+              <p>
+                Forgotten passphrases cannot be recovered. Changing it re-encrypts every snapshot.
+              </p>
+              <form id="passphrase-form" class="form-grid">
+                <label for="old-passphrase">Current passphrase</label>
+                <input id="old-passphrase" type="password" minlength="12" maxlength="1024" />
+                <label for="new-passphrase">New passphrase</label>
+                <input id="new-passphrase" type="password" minlength="12" maxlength="1024" />
+                <label for="new-passphrase-confirm">Confirm new passphrase</label>
+                <input
+                  id="new-passphrase-confirm"
+                  type="password"
+                  minlength="12"
+                  maxlength="1024"
+                />
+                <button class="button button-secondary" type="submit">Change passphrase</button>
+              </form>
+            </section>
+            <section class="panel privacy-copy">
+              <h3>Exact privacy model</h3>
+              <p>
+                No developer-operated server, project account, telemetry, ads, or runtime network
+                requests.
+              </p>
+              <p>
+                Local-only data stays in extension storage. Browser Sync is optional and uses Google
+                or Mozilla infrastructure. Exported files are encrypted locally.
+              </p>
+              <p>
+                URLs can contain secrets. TabBridge encrypts payloads, but a compromised unlocked
+                browser profile can access them. JavaScript cannot guarantee memory erasure.
+              </p>
+            </section>
+          </div>
+        </section>
+
+        <section id="help-section" class="section-view help" hidden aria-labelledby="help-title">
+          <h2 id="help-title">Help & limitations</h2>
+          <div class="panel prose">
+            <h3>What restores</h3>
+            <p>
+              Normal-window separation, tab order, duplicate URLs, pinned state, active tabs,
+              and—when supported—live group membership, title, color, and collapsed state.
+            </p>
+            <h3>What does not restore</h3>
+            <p>
+              Page memory, logins, cookies, form values, scroll or playback position, full
+              navigation history, unsaved data, private tabs, privileged browser URLs, or closed
+              Saved Tab Groups.
+            </p>
+            <h3>Cross-browser transfer</h3>
+            <p>
+              Export a snapshot with a dedicated passphrase, move the <code>.tabbridge</code> file,
+              then import it in the other browser. The entire file is authenticated before anything
+              is saved.
+            </p>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <dialog id="rename-dialog">
+      <form id="rename-form" method="dialog" class="dialog-form">
+        <h2>Rename snapshot</h2>
+        <label for="rename-value">Name</label>
+        <input id="rename-value" maxlength="200" required />
+        <div class="dialog-actions">
+          <button class="button button-quiet" value="cancel" type="submit" formnovalidate>
+            Cancel
+          </button>
+          <button id="rename-submit" class="button button-primary" value="default" type="submit">
+            Rename
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="export-dialog">
+      <form id="export-form" method="dialog" class="dialog-form">
+        <h2>Export encrypted snapshot</h2>
+        <p>Choose a file passphrase. It may differ from your vault passphrase.</p>
+        <label for="export-passphrase">File passphrase</label>
+        <input id="export-passphrase" type="password" minlength="12" maxlength="1024" required />
+        <div class="dialog-actions">
+          <button class="button button-quiet" value="cancel" type="submit" formnovalidate>
+            Cancel
+          </button>
+          <button id="export-submit" class="button button-primary" value="default" type="submit">
+            Export
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="import-dialog">
+      <form id="import-form" method="dialog" class="dialog-form">
+        <h2>Import encrypted snapshot</h2>
+        <label for="import-file">TabBridge file</label>
+        <input id="import-file" type="file" accept=".tabbridge,application/json" required />
+        <label for="import-passphrase">File passphrase</label>
+        <input id="import-passphrase" type="password" minlength="12" maxlength="1024" required />
+        <div class="dialog-actions">
+          <button class="button button-quiet" value="cancel" type="submit" formnovalidate>
+            Cancel
+          </button>
+          <button id="import-submit" class="button button-primary" value="default" type="submit">
+            Import
+          </button>
+        </div>
+      </form>
+    </dialog>
+
+    <p id="live-status" class="status-toast" role="status" aria-live="polite"></p>
+    <script src="manager.js"></script>
+  </body>
+</html>

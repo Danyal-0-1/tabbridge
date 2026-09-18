@@ -1,0 +1,66 @@
+@import url('../styles/base.css');
+
+body {
+  width: 380px;
+  min-height: 410px;
+}
+
+.popup-shell {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.popup-header,
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.popup-header h1 {
+  margin-bottom: 0;
+}
+
+.last-action {
+  margin: 0;
+  border-left: 3px solid var(--accent);
+  padding-left: 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.recent-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent-list li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  border-top: 1px solid var(--border);
+  padding: 8px 0 2px;
+}
+
+.recent-name {
+  overflow: hidden;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-meta {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+  text-align: center;
+}
