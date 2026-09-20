@@ -158,6 +158,10 @@ may be held in memory or trusted-context `storage.session` for the active browse
 clears that session material. JavaScript cannot guarantee physical memory erasure, and a compromised
 unlocked browser profile is outside what client-side encryption can solve.
 
+Passphrase fields are masked by default and provide an independent **Show/Hide** control. Revealing
+a field changes only its on-screen presentation; it does not store or transmit the passphrase.
+Successful unlocks and closed import/export dialogs clear and re-mask their passphrase fields.
+
 **There is no password recovery. A forgotten passphrase makes encrypted snapshots unreadable.** Keep
 a secure record of it outside TabBridge.
 

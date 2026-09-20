@@ -1,6 +1,7 @@
 import type { ListResponse, Request, Response, StatusResponse } from '../core/messages.ts';
 import type { SnapshotSummary } from '../core/types.ts';
 import { BrowserAdapter } from '../platform/browser-adapter.ts';
+import { bindPassphraseVisibility } from '../ui/passphrase-visibility.ts';
 
 const browser = new BrowserAdapter();
 
@@ -118,7 +119,7 @@ unlockForm.addEventListener('submit', (event) => {
     try {
       announce('Unlocking…');
       await send({ type: 'UNLOCK', passphrase: unlockPassphrase.value });
-      unlockPassphrase.value = '';
+      unlockForm.reset();
       announce('Unlocked.');
       await refresh();
     } catch (error) {
@@ -130,6 +131,7 @@ unlockForm.addEventListener('submit', (event) => {
 lockButton.addEventListener('click', () => {
   void (async () => {
     await send({ type: 'LOCK' });
+    unlockForm.reset();
     announce('Locked.');
     await refresh();
   })();
@@ -139,4 +141,5 @@ for (const id of ['manager-button', 'setup-button']) {
   byId<HTMLButtonElement>(id).addEventListener('click', () => void browser.openManager());
 }
 
+bindPassphraseVisibility(document);
 void refresh();

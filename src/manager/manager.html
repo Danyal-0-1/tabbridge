@@ -46,23 +46,49 @@
           <label for="setup-device-label">Device label</label>
           <input id="setup-device-label" value="This device" maxlength="120" required />
           <label for="setup-passphrase">New passphrase</label>
-          <input
-            id="setup-passphrase"
-            type="password"
-            minlength="12"
-            maxlength="1024"
-            autocomplete="new-password"
-            required
-          />
+          <div class="passphrase-field">
+            <input
+              id="setup-passphrase"
+              type="password"
+              minlength="12"
+              maxlength="1024"
+              autocomplete="new-password"
+              required
+            />
+            <button
+              class="button button-secondary passphrase-toggle"
+              type="button"
+              data-passphrase-toggle
+              data-passphrase-label="new passphrase"
+              aria-controls="setup-passphrase"
+              aria-pressed="false"
+              aria-label="Show new passphrase"
+            >
+              Show
+            </button>
+          </div>
           <label for="setup-passphrase-confirm">Confirm passphrase</label>
-          <input
-            id="setup-passphrase-confirm"
-            type="password"
-            minlength="12"
-            maxlength="1024"
-            autocomplete="new-password"
-            required
-          />
+          <div class="passphrase-field">
+            <input
+              id="setup-passphrase-confirm"
+              type="password"
+              minlength="12"
+              maxlength="1024"
+              autocomplete="new-password"
+              required
+            />
+            <button
+              class="button button-secondary passphrase-toggle"
+              type="button"
+              data-passphrase-toggle
+              data-passphrase-label="confirmation passphrase"
+              aria-controls="setup-passphrase-confirm"
+              aria-pressed="false"
+              aria-label="Show confirmation passphrase"
+            >
+              Show
+            </button>
+          </div>
           <button class="button button-primary" type="submit">Create encrypted vault</button>
         </form>
         <details class="join-sync">
@@ -73,14 +99,27 @@
           </p>
           <form id="join-form" class="form-grid">
             <label for="join-passphrase">Existing passphrase</label>
-            <input
-              id="join-passphrase"
-              type="password"
-              minlength="12"
-              maxlength="1024"
-              autocomplete="current-password"
-              required
-            />
+            <div class="passphrase-field">
+              <input
+                id="join-passphrase"
+                type="password"
+                minlength="12"
+                maxlength="1024"
+                autocomplete="current-password"
+                required
+              />
+              <button
+                class="button button-secondary passphrase-toggle"
+                type="button"
+                data-passphrase-toggle
+                data-passphrase-label="existing passphrase"
+                aria-controls="join-passphrase"
+                aria-pressed="false"
+                aria-label="Show existing passphrase"
+              >
+                Show
+              </button>
+            </div>
             <button class="button button-secondary" type="submit">
               Check browser sync and join
             </button>
@@ -93,14 +132,27 @@
         <p>Enter your passphrase. It stays in this browser session and is not persisted.</p>
         <form id="unlock-form" class="form-grid">
           <label for="unlock-passphrase">Passphrase</label>
-          <input
-            id="unlock-passphrase"
-            type="password"
-            minlength="12"
-            maxlength="1024"
-            autocomplete="current-password"
-            required
-          />
+          <div class="passphrase-field">
+            <input
+              id="unlock-passphrase"
+              type="password"
+              minlength="12"
+              maxlength="1024"
+              autocomplete="current-password"
+              required
+            />
+            <button
+              class="button button-secondary passphrase-toggle"
+              type="button"
+              data-passphrase-toggle
+              data-passphrase-label="passphrase"
+              aria-controls="unlock-passphrase"
+              aria-pressed="false"
+              aria-label="Show passphrase"
+            >
+              Show
+            </button>
+          </div>
           <button class="button button-primary" type="submit">Unlock</button>
         </form>
       </section>
@@ -185,16 +237,68 @@
               </p>
               <form id="passphrase-form" class="form-grid">
                 <label for="old-passphrase">Current passphrase</label>
-                <input id="old-passphrase" type="password" minlength="12" maxlength="1024" />
+                <div class="passphrase-field">
+                  <input
+                    id="old-passphrase"
+                    type="password"
+                    minlength="12"
+                    maxlength="1024"
+                    autocomplete="current-password"
+                  />
+                  <button
+                    class="button button-secondary passphrase-toggle"
+                    type="button"
+                    data-passphrase-toggle
+                    data-passphrase-label="current passphrase"
+                    aria-controls="old-passphrase"
+                    aria-pressed="false"
+                    aria-label="Show current passphrase"
+                  >
+                    Show
+                  </button>
+                </div>
                 <label for="new-passphrase">New passphrase</label>
-                <input id="new-passphrase" type="password" minlength="12" maxlength="1024" />
+                <div class="passphrase-field">
+                  <input
+                    id="new-passphrase"
+                    type="password"
+                    minlength="12"
+                    maxlength="1024"
+                    autocomplete="new-password"
+                  />
+                  <button
+                    class="button button-secondary passphrase-toggle"
+                    type="button"
+                    data-passphrase-toggle
+                    data-passphrase-label="new passphrase"
+                    aria-controls="new-passphrase"
+                    aria-pressed="false"
+                    aria-label="Show new passphrase"
+                  >
+                    Show
+                  </button>
+                </div>
                 <label for="new-passphrase-confirm">Confirm new passphrase</label>
-                <input
-                  id="new-passphrase-confirm"
-                  type="password"
-                  minlength="12"
-                  maxlength="1024"
-                />
+                <div class="passphrase-field">
+                  <input
+                    id="new-passphrase-confirm"
+                    type="password"
+                    minlength="12"
+                    maxlength="1024"
+                    autocomplete="new-password"
+                  />
+                  <button
+                    class="button button-secondary passphrase-toggle"
+                    type="button"
+                    data-passphrase-toggle
+                    data-passphrase-label="new confirmation passphrase"
+                    aria-controls="new-passphrase-confirm"
+                    aria-pressed="false"
+                    aria-label="Show new confirmation passphrase"
+                  >
+                    Show
+                  </button>
+                </div>
                 <button class="button button-secondary" type="submit">Change passphrase</button>
               </form>
             </section>
@@ -262,7 +366,27 @@
         <h2>Export encrypted snapshot</h2>
         <p>Choose a file passphrase. It may differ from your vault passphrase.</p>
         <label for="export-passphrase">File passphrase</label>
-        <input id="export-passphrase" type="password" minlength="12" maxlength="1024" required />
+        <div class="passphrase-field">
+          <input
+            id="export-passphrase"
+            type="password"
+            minlength="12"
+            maxlength="1024"
+            autocomplete="new-password"
+            required
+          />
+          <button
+            class="button button-secondary passphrase-toggle"
+            type="button"
+            data-passphrase-toggle
+            data-passphrase-label="file passphrase"
+            aria-controls="export-passphrase"
+            aria-pressed="false"
+            aria-label="Show file passphrase"
+          >
+            Show
+          </button>
+        </div>
         <div class="dialog-actions">
           <button class="button button-quiet" value="cancel" type="submit" formnovalidate>
             Cancel
@@ -280,7 +404,27 @@
         <label for="import-file">TabBridge file</label>
         <input id="import-file" type="file" accept=".tabbridge,application/json" required />
         <label for="import-passphrase">File passphrase</label>
-        <input id="import-passphrase" type="password" minlength="12" maxlength="1024" required />
+        <div class="passphrase-field">
+          <input
+            id="import-passphrase"
+            type="password"
+            minlength="12"
+            maxlength="1024"
+            autocomplete="current-password"
+            required
+          />
+          <button
+            class="button button-secondary passphrase-toggle"
+            type="button"
+            data-passphrase-toggle
+            data-passphrase-label="file passphrase"
+            aria-controls="import-passphrase"
+            aria-pressed="false"
+            aria-label="Show file passphrase"
+          >
+            Show
+          </button>
+        </div>
         <div class="dialog-actions">
           <button class="button button-quiet" value="cancel" type="submit" formnovalidate>
             Cancel

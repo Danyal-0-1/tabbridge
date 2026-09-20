@@ -69,6 +69,22 @@ select {
   padding: 8px 10px;
 }
 
+.passphrase-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.passphrase-field > input {
+  width: 100%;
+  min-width: 0;
+}
+
+.passphrase-toggle {
+  min-width: 68px;
+}
+
 :focus-visible {
   outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent);
   outline-offset: 2px;

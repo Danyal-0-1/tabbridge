@@ -30,6 +30,8 @@ actual recorded results.
 - Shared promise-based Chrome/Firefox WebExtension adapter and separate Manifest V3 build targets.
 - Popup, manager, first-run privacy disclosure, local/sync settings, snapshot management, and
   restore status surfaces.
+- Accessible Show/Hide controls for every passphrase field, with automatic clearing and re-masking
+  after sensitive workflows.
 - Unit, integration, security, manifest, package, browser-smoke, and Firefox lint entry points.
 - Deterministic Chrome/Firefox packaging with SHA-256 checksum output.
 - Privacy, security, architecture, data-format, threat-model, contribution, community, and release

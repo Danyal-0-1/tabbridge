@@ -10,6 +10,7 @@ import type {
 import { newId } from '../core/ids.ts';
 import type { RestoreReport, RestoreSelection, Snapshot, SnapshotSummary } from '../core/types.ts';
 import { BrowserAdapter } from '../platform/browser-adapter.ts';
+import { bindPassphraseVisibility } from '../ui/passphrase-visibility.ts';
 
 const browser = new BrowserAdapter();
 let status: StatusResponse | undefined;
@@ -475,7 +476,7 @@ function openRename(snapshot: SnapshotSummary): void {
 
 function openExport(snapshotId: string): void {
   exportId = snapshotId;
-  byId<HTMLInputElement>('export-passphrase').value = '';
+  byId<HTMLFormElement>('export-form').reset();
   byId<HTMLDialogElement>('export-dialog').showModal();
 }
 
@@ -573,7 +574,7 @@ byId<HTMLFormElement>('unlock-form').addEventListener('submit', (event) => {
     try {
       const input = byId<HTMLInputElement>('unlock-passphrase');
       await send({ type: 'UNLOCK', passphrase: input.value });
-      input.value = '';
+      form.reset();
       announce('Unlocked.');
       await initialize();
     } catch (error) {
@@ -587,6 +588,8 @@ byId<HTMLFormElement>('unlock-form').addEventListener('submit', (event) => {
 lockButton.addEventListener('click', () => {
   void (async () => {
     await send({ type: 'LOCK' });
+    byId<HTMLFormElement>('unlock-form').reset();
+    byId<HTMLFormElement>('passphrase-form').reset();
     snapshots = [];
     selectedId = undefined;
     announce('TabBridge locked and session key material cleared.');
@@ -608,9 +611,10 @@ for (const tab of document.querySelectorAll<HTMLButtonElement>('.tab-button')) {
 
 searchInput.addEventListener('input', renderList);
 sortSelect.addEventListener('change', renderList);
-byId<HTMLButtonElement>('import-button').addEventListener('click', () =>
-  byId<HTMLDialogElement>('import-dialog').showModal(),
-);
+byId<HTMLButtonElement>('import-button').addEventListener('click', () => {
+  byId<HTMLFormElement>('import-form').reset();
+  byId<HTMLDialogElement>('import-dialog').showModal();
+});
 
 byId<HTMLFormElement>('rename-form').addEventListener('submit', (event) => {
   event.preventDefault();
@@ -815,4 +819,5 @@ async function initialize(): Promise<void> {
 }
 
 resetPreview();
+bindPassphraseVisibility(document);
 void initialize();
