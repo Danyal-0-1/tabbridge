@@ -41,7 +41,7 @@
     "esbuild": "0.28.2",
     "playwright": "1.63.0",
     "prettier": "3.9.8",
-    "typescript": "5.9.3",
+    "typescript": "7.0.2",
     "web-ext": "10.6.0"
   }
 }
